@@ -2,9 +2,21 @@
   text-align: center;
 }
 
+.navbar-custom {
+  background-color: #87A878;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.nav-link {
+  color: #000000;
+  font-weight: bold;
+}
+.navbar-brand {
+  color: #000000;
+  font-weight: bold;
 }
 
 @media (prefers-reduced-motion: no-preference) {
