@@ -1,16 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/productModel");
-const Customer = require("/.models/customerModel");
+const Customer = require("./models/customerModel");
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
 
 mongoose
   .connect(
     "mongodb+srv://admin:2830Password@mattcluster.5pix0hp.mongodb.net/MOM-API?retryWrites=true&w=majority"
   )
   .then(() => {
-    app.listen(3000, () => {
-      console.log(`MOM API is running on port 3000`);
+    app.listen(4000, () => {
+      console.log(`MOM API is running on port 4000`);
     });
     console.log("connected to MongoDB");
   })
