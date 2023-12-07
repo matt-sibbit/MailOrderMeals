@@ -1,7 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Product = require("./models/productModel");
-const Customer = require("/.models/customerModel");
+const {
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProductById,
+} = require("./queries");
 const app = express();
 
 mongoose
@@ -18,7 +22,7 @@ mongoose
     console.log(error);
   });
 
-//routes
+// routes
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,31 +31,31 @@ app.get("/", (req, res) => {
   res.send("Hello MOM API");
 });
 
-//EXAMPLE GET DATA FROM DATABASE
+// EXAMPLE GET ALL DATA FROM DATABASE
 app.get("/products", async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await getAllProducts();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-//GET DATA BY ID
+// GET DATA BY ID
 app.get("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findbyID(id);
-    res.status(200).json(products);
+    const product = await getProductById(id);
+    res.status(200).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-//CREATE ENTRY INTO DATABASE
+// CREATE PRODUCT ENTRY INTO DATABASE
 app.post("/products", async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const product = await createProduct(req.body);
     res.status(200).json(product);
   } catch (error) {
     console.log(error.message);
@@ -59,18 +63,12 @@ app.post("/products", async (req, res) => {
   }
 });
 
-//update a product
+// UPDATE PRODUCT BY ID
 app.put("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body);
-    if (!product) {
-      return res
-        .status(404)
-        .json({ message: `connot find any product with ID ${id}` });
-    }
-    const updatedProduct = await Product.findbyID(id);
-    res.status(200).json(product);
+    const updatedProduct = await updateProductById(id, req.body);
+    res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

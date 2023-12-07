@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
 
-const customerSchema = mongoose.Schema({
-  name: {
+const customerSchema = new mongoose.Schema({
+  username: {
     type: String,
-    required: [true, "please enter a customer name"],
+    required: true,
+    unique: true,
   },
-
-  frequency: {
-    type: Number,
-    required: [
-      true,
-      "Please enter how many times a month you would like a box",
-    ],
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
   },
 });
+
+const Customer = mongoose.model("Customer", customerSchema);
+
+module.exports = Customer;
