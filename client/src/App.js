@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
@@ -7,6 +7,12 @@ import Profile from './components/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 const App = () => {
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+	const handleAuthentication = (status) => {
+	  setIsAuthenticated(status);
+	};
+	
   return (
     <Router>
 		<nav className="navbar navbar-expand-lg navbar-light navbar-custom">
