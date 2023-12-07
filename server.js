@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/productModel");
+const Customer = require("/.models/customerModel");
 const app = express();
 
 mongoose
@@ -11,7 +12,7 @@ mongoose
     app.listen(3000, () => {
       console.log(`MOM API is running on port 3000`);
     });
-    console.log("connected to MondoDB");
+    console.log("connected to MongoDB");
   })
   .catch(() => {
     console.log(error);
