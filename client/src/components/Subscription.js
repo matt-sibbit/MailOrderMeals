@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import Order from './components/Order';
 import Profile from './components/Profile';
-// import Subscription from './components/Subscription';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 const App = () => {
@@ -25,9 +24,6 @@ const App = () => {
 							<Link className="nav-link" to="/order">Order</Link>
 							</li>
 						<li className="nav-item">
-							<Link className="nav-link" to="/subscription">Subscription</Link>
-						</li>
-						<li className="nav-item">
 							<Link className="nav-link" to="/profile">Profile</Link>
 						</li>
 					</ul>
@@ -38,7 +34,6 @@ const App = () => {
 			<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/order" element={<Order />} />
-			{/* <Route path="/subscription" element={<Subscription />} /> */}
 			<Route path="/profile" element={<Profile />} />
 			</Routes>
 		</div>
