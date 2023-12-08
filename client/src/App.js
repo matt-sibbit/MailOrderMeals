@@ -1,10 +1,10 @@
 import {React, useState} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import SubscriptionPage from './components/Subscription';
 import Home from './components/Home';
 import Order from './components/Order';
 import Profile from './components/Profile';
-// import Subscription from './components/Subscription';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
 			<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/order" element={<Order />} />
-			{/* <Route path="/subscription" element={<Subscription />} /> */}
+			<Route path="/subscription" element={<SubscriptionPage />} />
 			<Route path="/profile" element={<Profile />} />
 			</Routes>
 		</div>

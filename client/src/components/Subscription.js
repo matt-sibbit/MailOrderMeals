@@ -1,44 +1,54 @@
-import {React, useState} from 'react';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './components/Home';
-import Order from './components/Order';
-import Profile from './components/Profile';
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import React, { useState } from 'react';
 
-const App = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-	const handleAuthentication = (status) => {
-	  setIsAuthenticated(status);
-	};
-	
+const Subscription = ({ userId, onUpdateUser }) => {
+  const [subscriptionDetails, setSubscriptionDetails] = useState({
+    frequency: '',
+    deliveryAddress: '',
+    deliveryDay: '',
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setSubscriptionDetails(prevDetails => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  const updateSubscription = () => {
+    //add this to the user object
+    onUpdateUser(userId, { subscription: subscriptionDetails });
+  };
+
   return (
-    <Router>
-		<nav className="navbar navbar-expand-lg navbar-light navbar-custom">
-			<div className="container-fluid">
-					<Link className="navbar-brand" to="/">MailOrderMeals</Link>
-				<div className="collapse navbar-collapse">
-					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-						<li className="nav-item">
-							<Link className="nav-link" to="/order">Order</Link>
-							</li>
-						<li className="nav-item">
-							<Link className="nav-link" to="/profile">Profile</Link>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-      	<div className="container mt-4">
-			<Routes>
-			<Route path="/" element={<Home />} />
-			<Route path="/order" element={<Order />} />
-			<Route path="/profile" element={<Profile />} />
-			</Routes>
-		</div>
-	</Router>
+    <div>
+      <input
+        type="text"
+        name="frequency"
+        className="form-control mb-2"
+        placeholder="Frequency"
+        value={subscriptionDetails.frequency}
+        onChange={handleInputChange}
+      />
+      <input
+        type="text"
+        name="deliveryAddress"
+        className="form-control mb-2"
+        placeholder="Delivery Address"
+        value={subscriptionDetails.deliveryAddress}
+        onChange={handleInputChange}
+      />
+      <input
+        type="text"
+        name="deliveryDay"
+        className="form-control mb-2"
+        placeholder="Delivery Day"
+        value={subscriptionDetails.deliveryDay}
+        onChange={handleInputChange}
+      />
+      <button className="btn btn-primary" onClick={updateSubscription}>Update Subscription</button>
+    </div>
   );
 };
 
-export default App;
+export default Subscription;
