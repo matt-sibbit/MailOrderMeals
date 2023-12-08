@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import SubscriptionPage from './components/Subscription';
 import Home from './components/Home';
-import Order from './components/Order';
+import Order from './components/Orders';
 import Profile from './components/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
@@ -29,7 +29,7 @@ const App = () => {
 				<div className="collapse navbar-collapse">
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 						<li className="nav-item">
-							<Link className="nav-link" to="/order">Order</Link>
+							<Link className="nav-link" to="/order">My Orders</Link>
 							</li>
 						<li className="nav-item">
 							<Link className="nav-link" to="/subscription">Subscription</Link>

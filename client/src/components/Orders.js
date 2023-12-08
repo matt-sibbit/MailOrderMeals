@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const OrderPage = () => {
+const OrdersPage = () => {
 	const [subscriptions, setSubscriptions] = useState([]);
   
 	useEffect(() => {
@@ -57,4 +57,4 @@ const OrderPage = () => {
 	  );
 };
 
-export default OrderPage;
+export default OrdersPage;
