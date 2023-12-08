@@ -4,20 +4,20 @@ const subscriptionSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Prouduct",
-    required: true,
+    // required: true,
   },
   frequency: {
     type: Number,
-    required: true,
+    // required: true,
   },
   deliveryAddress: {
     type: String,
-    required: true,
+    // required: true,
   },
   deliveryDay: {
     type: String,
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    required: true,
+    // required: true,
   },
 });
 
