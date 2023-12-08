@@ -24,8 +24,8 @@ const Subscription = () => {
             deliveryDay,
         };
         console.log("Sending subscription data:", subscriptionData);
-
-        fetch(`http://localhost:4000/subscriptions/${userId}`, {
+        const encodedEmail = encodeURIComponent(userId);
+        fetch(`http://localhost:4000/${encodedEmail}/subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(subscriptionData)

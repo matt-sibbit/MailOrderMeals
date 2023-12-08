@@ -80,34 +80,41 @@ async function loginCustomer(email, password) {
     }
 }
 
-// async function createSubscription(userId, subscriptionData) {
-// try {
-// // Find the customer by ID
-// const customer = await Customer.findById(userId);
+// async function getSubscriptionDetails(userId) {
+//     try {
+//         const subscriptions = await Subscription.find({ user: userId })
+//             .populate({
+//                 path: "meals.product",
+//                 model: Product, 
+//             })
+//             .exec();
 
-// if (!customer) {
-// throw new Error("Customer not found");
+//         if (!subscriptions || subscriptions.length === 0) {
+//             throw new Error("No subscriptions found for the user");
+//         }
+
+//         const subscriptionDetails = subscriptions.map((subscription) => ({
+//             subscriptionId: subscription._id,
+//             frequency: subscription.frequency,
+//             deliveryAddress: subscription.deliveryAddress,
+//             deliveryDay: subscription.deliveryDay,
+//             meals: subscription.meals.map((meal) => ({
+//                 productId: meal.product._id,
+//                 productName: meal.product.name,
+//                 size: meal.product.size,
+//                 price: meal.product.price,
+//             })),
+//         }));
+
+//         return subscriptionDetails;
+//     } catch (error) {
+//         throw new Error(error.message);
+//     }
 // }
 
-// // Create a new subscription instance
-// const newSubscription = new Subscription(subscriptionData);
-
-// // Save the subscription to the database
-// await newSubscription.save();
-
-// // Associate the new subscription with the customer
-// customer.subscription = newSubscription._id;
-// await customer.save();
-
-// return newSubscription;
-// } catch (error) {
-// throw new Error(error.message);
-// }
-// }
-
-async function createSubscription(userId, subscriptionData) {
+async function createSubscription(userEmail, subscriptionData) {
     try {
-        const customer = await Customer.findById(userId);
+        const customer = await Customer.findOne({ email: userEmail });
         if (!customer) {
             throw new Error("Customer not found");
         }
@@ -116,38 +123,6 @@ async function createSubscription(userId, subscriptionData) {
         await customer.save();
 
         return customer;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-async function getSubscriptionDetails(userId) {
-    try {
-        const subscriptions = await Subscription.find({ user: userId })
-            .populate({
-                path: "meals.product",
-                model: Product, 
-            })
-            .exec();
-
-        if (!subscriptions || subscriptions.length === 0) {
-            throw new Error("No subscriptions found for the user");
-        }
-
-        const subscriptionDetails = subscriptions.map((subscription) => ({
-            subscriptionId: subscription._id,
-            frequency: subscription.frequency,
-            deliveryAddress: subscription.deliveryAddress,
-            deliveryDay: subscription.deliveryDay,
-            meals: subscription.meals.map((meal) => ({
-                productId: meal.product._id,
-                productName: meal.product.name,
-                size: meal.product.size,
-                price: meal.product.price,
-            })),
-        }));
-
-        return subscriptionDetails;
     } catch (error) {
         throw new Error(error.message);
     }
