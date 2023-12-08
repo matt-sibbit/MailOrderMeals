@@ -109,14 +109,13 @@ app.post("/login", async (req, res) => {
 });
 
 // Create a subscription
-app.post("/subscriptions", async (req, res) => {
+app.post("/subscriptions/:userId", async (req, res) => {
   try {
+    const userId = req.params.userId;
     const subscriptionData = req.body;
 
-    // Validate the request body
+    // Validate the request body (add your own validation logic)
     if (
-      !subscriptionData.user ||
-      !subscriptionData.product ||
       !subscriptionData.frequency ||
       !subscriptionData.deliveryAddress ||
       !subscriptionData.deliveryDay
@@ -124,7 +123,7 @@ app.post("/subscriptions", async (req, res) => {
       return res.status(400).json({ message: "Invalid request body" });
     }
 
-    const newSubscription = await createSubscription(subscriptionData);
+    const newSubscription = await createSubscription(userId, subscriptionData);
 
     res.status(201).json(newSubscription);
   } catch (error) {
