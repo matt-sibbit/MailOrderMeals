@@ -116,7 +116,7 @@ app.post("/subscriptions", async (req, res) => {
     // Validate the request body
     if (
       !subscriptionData.user ||
-      !subscriptionData.meals ||
+      !subscriptionData.product ||
       !subscriptionData.frequency ||
       !subscriptionData.deliveryAddress ||
       !subscriptionData.deliveryDay
