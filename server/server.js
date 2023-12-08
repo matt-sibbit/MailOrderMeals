@@ -3,6 +3,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/productModel");
 const Customer = require("./models/customerModel");
+const { 
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProductById,
+  registerCustomer,
+  loginCustomer,
+  getOrderDetails
+} = require("./queries");
 const app = express();
 const cors = require('cors');
 
@@ -45,7 +54,7 @@ app.get("/products", async (req, res) => {
 app.get("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findbyID(id);
+    const product = await Product.findById(id);
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -77,5 +86,26 @@ app.put("/products/:id", async (req, res) => {
     res.status(200).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+
+app.post('/signup', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const newCustomer = await registerCustomer(username, email, password);
+    res.status(201).json(newCustomer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const customer = await loginCustomer(email, password);
+    res.status(200).json(customer);
+  } catch (error) {
+    res.status(401).json({ message: error.message });
   }
 });

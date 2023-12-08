@@ -1,31 +1,60 @@
 import React, { useState } from 'react';
 
 const SignUp = ({ onAuthChange }) => {
-  const [fname, setFname] = useState('');
-  const [lname, setLname] = useState('');
+  // const [fname, setFname] = useState('');
+  // const [lname, setLname] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const signUp = () => {
-    // make some call to backend/mongo
-    onAuthChange(true);
+    const userData = { username, email, password };
+    fetch('http://localhost:4000/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Signup successful');
+        console.log(response);
+      }
+      else {
+        throw new Error('Signup failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      onAuthChange(true);
+    })
+    .catch(error => {
+      console.error('Error during sign up:', error);
+      onAuthChange(false);
+    });
   };
 
   return (
     <div>
-      <input 
+      {/* <input 
         type="text"
         className="form-control mb-2"
         placeholder="First Name"
         value={fname}
         onChange={(e) => setFname(e.target.value)}
-      />
-      <input 
+      /> */}
+      {/* <input 
         type="text"
         className="form-control mb-2"
         placeholder="Last Name"
         value={lname}
         onChange={(e) => setLname(e.target.value)}
+      /> */}
+      <input 
+        type="text"
+        className="form-control mb-2"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <input 
         type="email"
