@@ -116,6 +116,7 @@ app.post("/subscriptions/:userId", async (req, res) => {
 
     // Validate the request body (add your own validation logic)
     if (
+      !subscriptionData.product ||
       !subscriptionData.frequency ||
       !subscriptionData.deliveryAddress ||
       !subscriptionData.deliveryDay
