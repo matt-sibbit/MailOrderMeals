@@ -3,18 +3,14 @@ const mongoose = require("mongoose");
 const subscriptionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer", // Assuming there is a User model for subscribers
+    ref: "Customer",
     required: true,
   },
-  meals: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Prouduct",
-        required: true,
-      },
-    },
-  ],
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Prouduct",
+    required: true,
+  },
   frequency: {
     type: Number,
     required: true,

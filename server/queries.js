@@ -65,13 +65,13 @@ async function loginCustomer(email, password) {
     const customer = await Customer.findOne({ email });
 
     if (!customer) {
-      throw new Error("Cannot find user with that email"); 
+      throw new Error("Cannot find user with that email");
     }
 
     const isPasswordValid = await bcrypt.compare(password, customer.password);
 
     if (!isPasswordValid) {
-      throw new Error("Invalid email or password"); 
+      throw new Error("Invalid email or password");
     }
 
     return customer;
@@ -80,30 +80,50 @@ async function loginCustomer(email, password) {
   }
 }
 
-async function getOrderDetails(customerId) {
+async function createSubscription(subscriptionData) {
   try {
-    // Find the customer's subscriptions
-    const subscriptions = await Subscription.find({ user: customerId });
+    // Create a new subscription instance
+    const newSubscription = new Subscription(subscriptionData);
+
+    // Save the subscription to the database
+    await newSubscription.save();
+
+    return newSubscription;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+async function getSubscriptionDetails(userId) {
+  try {
+    // Find subscriptions for the specified user
+    const subscriptions = await Subscription.find({ user: userId })
+      .populate({
+        path: "meals.product",
+        model: Product, // Use the Product model directly
+      })
+      .exec();
 
     if (!subscriptions || subscriptions.length === 0) {
-      throw new Error("No subscriptions found for the customer");
+      throw new Error("No subscriptions found for the user");
     }
 
-    // You can customize the order details based on your schema and business logic
-    const orderDetails = subscriptions.map((subscription) => ({
+    // You can customize the subscription details based on your schema and business logic
+    const subscriptionDetails = subscriptions.map((subscription) => ({
       subscriptionId: subscription._id,
+      frequency: subscription.frequency,
       deliveryAddress: subscription.deliveryAddress,
       deliveryDay: subscription.deliveryDay,
       meals: subscription.meals.map((meal) => ({
-        mealId: meal._id,
-        name: meal.name,
-        description: meal.description,
-        price: meal.price,
-        quantity: meal.quantity,
+        productId: meal.product._id,
+        productName: meal.product.name,
+        size: meal.product.size,
+        price: meal.product.price,
+        // Add other meal details as needed
       })),
     }));
 
-    return orderDetails;
+    return subscriptionDetails;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -116,5 +136,6 @@ module.exports = {
   updateProductById,
   registerCustomer,
   loginCustomer,
-  getOrderDetails,
+  getSubscriptionDetails,
+  createSubscription,
 };
