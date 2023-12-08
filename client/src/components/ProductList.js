@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+//   const [product, setProduct] = useState(''); 
+//   const [frequency, setFrequency] = useState('');
+//   const [deliveryAddress, setDeliveryAddress] = useState('');
+//   const [deliveryDay, setDeliveryDay] = useState('');
 
 useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
+        const response = await fetch('http://localhost:4000/products');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -19,89 +23,81 @@ useEffect(() => {
 
     fetchProducts();
   }, []);
-  const addToOrder = (productId) => {
-    const userId = 'user123'; //temp for now replace after login done
-    const orderData = { productId, userId };
+//   const addToOrder = (productId) => {
+//     const userId = localStorage.getItem('userId');
+//     const orderData = {
+//       product,
+//       frequency,
+//       deliveryAddress,
+//       deliveryDay
+//     };
 
-    fetch('/api/orders/add', { //adjust for actual route in server.js
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => console.log('Order updated:', data))
-    .catch(error => console.error('Error adding to order:', error));
-  };
-
-  const [isSizeDropdownOpen, setSizeDropdownOpen] = useState(false);
-  const [selectedProtein, setSelectedProtein] = useState(null);
-
-  const toggleSizeDropdown = () => {
-    setSizeDropdownOpen(!isSizeDropdownOpen);
-  };
-
-  const handleProteinSelect = (protein) => {
-    setSelectedProtein(protein);
-    setSizeDropdownOpen(true); // Open the size dropdown when protein is selected
-  };
+//     fetch(`http://localhost:4000/subscriptions/${userId}`, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(orderData)
+//     })
+//     .then(response => {
+//       if (!response.ok) {
+//         console.log(response)
+//         throw new Error('Subscription creation failed');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log('Subscription created:', data);
+//     })
+//     .catch(error => {
+//       console.error('Error during subscription creation:', error);
+//     });
+//   };
 
 
   return (
-<div className="container mt-4">
-      <h2>Our Products</h2>
-      <div className="row">
-        <div className="product">
-          <div>Choose your item</div>
-          <div>
-            <div>
-              <label>Select Protein:</label>
-              <select onChange={(e) => handleProteinSelect(e.target.value)}>
-                <option value="">Choose...</option>
-                <option value="chicken">Chicken</option>
-                <option value="beef">Beef</option>
-                <option value="vegetable">vegetable</option>
-                {/* Add more options as needed */}
-              </select>
+    // <div className="container mt-4">
+    //   <h2>Our Products</h2>
+    //   {products.length === 0 ? (
+    //     <div className="alert alert-info">The store is empty!</div>
+    //   ) : (
+    //     <div className="row">
+    //       {products.map(product => (
+    //         <div className="col-sm-4 mb-4" key={product._id}>
+    //           <div className="card">
+    //             <div className="card-body">
+	// 			<h5 className="card-title">
+    //     {product.name} <span className="small-text">{product.size}</span>
+    //   </h5>
+    //               {/* <p className="card-text">{product.description}</p> */}
+    //             </div>
+    //           </div>
+    //         </div>
+    //       ))}
+    //     </div>
+    //   )}
+    // </div>
+	<div className="container mt-4">
+  <h2 className="mb-3">Our Products</h2>
+  {products.length === 0 ? (
+    <div className="alert alert-info">The store is empty!</div>
+  ) : (
+    <div className="row">
+      {products.map(product => (
+        <div className="col-md-4 mb-4" key={product._id}>
+          <div className="card h-100">
+            {/* <img src="path/to/your/image.jpg" className="card-img-top" alt={product.name} /> */}
+            <div className="card-body d-flex flex-column">
+              <h5 className="card-title">{product.name}</h5>
+              <p className="text-muted">{product.size}</p>
             </div>
-            {selectedProtein && (
-              <div>
-                <label>Select Size:</label>
-                <select>
-                  <option value="small">Small</option>
-                  <option value="medium">Medium</option>
-                  <option value="large">Large</option>
-                  {/* Add more options as needed */}
-                </select>
-              </div>
-            )}
-          </div>
-            <div>
-            <input 
-              type="Address"
-              className="form-control mb-2"
-              placeholder="Address"
-            />
-            </div>
-            <div>
-              <input 
-                type="Delivery Frequency"
-                className="form-control mb-2"
-                placeholder="Delivery Frequency"
-              />
-          </div>
-
-          <div>
-          <input 
-            type="Day of the week"
-            className="form-control mb-2"
-            placeholder="Day of the week"
-          />
           </div>
         </div>
-      </div>
+      ))}
     </div>
+  )}
+</div>
 
   );
 };
+
 
 export default ProductList;

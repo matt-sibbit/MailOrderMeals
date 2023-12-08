@@ -1,32 +1,27 @@
 const mongoose = require("mongoose");
 
 const subscriptionSchema = new mongoose.Schema({
-  user: {
+  product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer", // Assuming there is a User model for subscribers
-    required: true,
+    ref: "Product",
+    // required: true,
   },
-  meals: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Prouduct",
-        required: true,
-      },
-    },
-  ],
+  size: {
+    type: String,
+    // required: true,
+  },
   frequency: {
     type: Number,
-    required: true,
+    // required: true,
   },
   deliveryAddress: {
     type: String,
-    required: true,
+    // required: true,
   },
   deliveryDay: {
     type: String,
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    required: true,
+    // required: true,
   },
 });
 
