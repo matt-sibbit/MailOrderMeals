@@ -8,17 +8,17 @@ const subscriptionSchema = new mongoose.Schema({
   },
   meals: [
     {
-      meal: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Meal",
+        ref: "Prouduct",
         required: true,
-      },
-      quantity: {
-        type: Number,
-        default: 1,
       },
     },
   ],
+  frequency: {
+    type: Number,
+    required: true,
+  },
   deliveryAddress: {
     type: String,
     required: true,
