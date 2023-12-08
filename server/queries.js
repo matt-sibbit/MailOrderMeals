@@ -80,7 +80,6 @@ async function loginCustomer(email, password) {
   }
 }
 
-
 async function getOrderDetails(customerId) {
   try {
     // Find the customer's subscriptions
