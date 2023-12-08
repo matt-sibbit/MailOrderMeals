@@ -15,17 +15,10 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  fname: {
-    type: String,
-    // required: true,
-  },
-  lname: {
-    type: String,
-    // required: true,
-  },
-  address: {
-    type: String,
-    // required: true,
+  subscription: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subscription",
+    required: true,
   },
 });
 

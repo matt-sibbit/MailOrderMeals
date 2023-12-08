@@ -80,13 +80,24 @@ async function loginCustomer(email, password) {
   }
 }
 
-async function createSubscription(subscriptionData) {
+async function createSubscription(userId, subscriptionData) {
   try {
+    // Find the customer by ID
+    const customer = await Customer.findById(userId);
+
+    if (!customer) {
+      throw new Error("Customer not found");
+    }
+
     // Create a new subscription instance
     const newSubscription = new Subscription(subscriptionData);
 
     // Save the subscription to the database
     await newSubscription.save();
+
+    // Associate the new subscription with the customer
+    customer.subscription = newSubscription._id;
+    await customer.save();
 
     return newSubscription;
   } catch (error) {
