@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-const Subscription = ({ userId }) => {
-  const [product, setProduct] = useState(''); // Assumed to be a string; adjust as needed
+const Subscription = () => {  
+  const [product, setProduct] = useState(''); 
   const [frequency, setFrequency] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryDay, setDeliveryDay] = useState('');
+  const userId = localStorage.getItem('userId');
 
   const submitSubscription = () => {
     const subscriptionData = {
@@ -29,7 +30,10 @@ const Subscription = ({ userId }) => {
       console.log('Subscription created:', data);
     })
     .catch(error => {
-      console.error('Error during subscription creation:', error);
+        console.error('Error during subscription creation:', error);
+        if (error.message) {
+            console.error('Error message:', error.message);
+        }
     });
   };
 

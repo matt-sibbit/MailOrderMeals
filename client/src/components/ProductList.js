@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState(''); 
+  const [frequency, setFrequency] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryDay, setDeliveryDay] = useState('');
 
 useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
+        const response = await fetch('http://localhost:4000/products');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -20,17 +24,32 @@ useEffect(() => {
     fetchProducts();
   }, []);
   const addToOrder = (productId) => {
-    const userId = 'user123'; //temp for now replace after login done
-    const orderData = { productId, userId };
+    const userId = localStorage.getItem('userId');
+    const orderData = {
+      product,
+      frequency,
+      deliveryAddress,
+      deliveryDay
+    };
 
-    fetch('/api/orders/add', { //adjust for actual route in server.js
-      method: 'PUT',
+    fetch(`http://localhost:4000/subscriptions/${userId}`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData)
     })
-    .then(response => response.json())
-    .then(data => console.log('Order updated:', data))
-    .catch(error => console.error('Error adding to order:', error));
+    .then(response => {
+      if (!response.ok) {
+        console.log(response)
+        throw new Error('Subscription creation failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Subscription created:', data);
+    })
+    .catch(error => {
+      console.error('Error during subscription creation:', error);
+    });
   };
 
 

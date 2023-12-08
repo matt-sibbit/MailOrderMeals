@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import SubscriptionPage from './components/Subscription';
@@ -8,11 +8,18 @@ import Profile from './components/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 const App = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+	const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
+
+	useEffect(() => {
+		const isAuthenticatedValue = localStorage.getItem('isAuthenticated');
+		console.log('Retrieved isAuthenticated from localStorage:', isAuthenticatedValue);
+		setIsAuthenticated(isAuthenticatedValue === 'true');
+	  }, []);
+
 	const handleAuthentication = (status) => {
-	  setIsAuthenticated(status);
-	};
+		setIsAuthenticated(status);
+		localStorage.setItem('isAuthenticated', status.toString());
+	  };
 	
   return (
     <Router>

@@ -10,6 +10,7 @@ const {
   registerCustomer,
   loginCustomer,
   getSubscriptionDetails,
+  createSubscription,
 } = require("./queries");
 const app = express();
 const cors = require("cors");
@@ -104,6 +105,7 @@ app.post("/login", async (req, res) => {
     const customer = await loginCustomer(email, password);
     res.status(200).json(customer);
   } catch (error) {
+    res.status(200).json({ ...customer.toObject(), userId: customer._id });
     res.status(401).json({ message: error.message });
   }
 });
@@ -111,7 +113,8 @@ app.post("/login", async (req, res) => {
 // Create a subscription
 app.post("/subscriptions/:userId", async (req, res) => {
   try {
-    const userId = req.params.userId;
+    // const userId = req.params.userId;
+    const userId = ObjectId(req.params.userId);
     const subscriptionData = req.body;
 
     // Validate the request body (add your own validation logic)
@@ -129,6 +132,7 @@ app.post("/subscriptions/:userId", async (req, res) => {
     res.status(201).json(newSubscription);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    // res.status(500).json({ message: "Internal Server Error" });
   }
 });

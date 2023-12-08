@@ -18,8 +18,9 @@ const Login = ({ onAuthChange }) => {
       }
       return response.json();
     })
-    .then(data => {
+    .then(() => {
       localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userId', email);
       onAuthChange(true); 
     })
     .catch(error => {
