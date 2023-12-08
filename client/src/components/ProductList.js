@@ -53,50 +53,34 @@ useEffect(() => {
 //   };
 
 
-  return (
-    // <div className="container mt-4">
-    //   <h2>Our Products</h2>
-    //   {products.length === 0 ? (
-    //     <div className="alert alert-info">The store is empty!</div>
-    //   ) : (
-    //     <div className="row">
-    //       {products.map(product => (
-    //         <div className="col-sm-4 mb-4" key={product._id}>
-    //           <div className="card">
-    //             <div className="card-body">
-	// 			<h5 className="card-title">
-    //     {product.name} <span className="small-text">{product.size}</span>
-    //   </h5>
-    //               {/* <p className="card-text">{product.description}</p> */}
-    //             </div>
-    //           </div>
-    //         </div>
-    //       ))}
-    //     </div>
-    //   )}
-    // </div>
-	<div className="container mt-4">
-  <h2 className="mb-3">Our Products</h2>
-  {products.length === 0 ? (
-    <div className="alert alert-info">The store is empty!</div>
-  ) : (
-    <div className="row">
-      {products.map(product => (
-        <div className="col-md-4 mb-4" key={product._id}>
-          <div className="card h-100">
-            {/* <img src="path/to/your/image.jpg" className="card-img-top" alt={product.name} /> */}
-            <div className="card-body d-flex flex-column">
-              <h5 className="card-title">{product.name}</h5>
-              <p className="text-muted">{product.size}</p>
+return (
+  <div className="container mt-4">
+    <h2 className="mb-3">Our Products</h2>
+    {products.length === 0 ? (
+      <div className="alert alert-info">The store is empty!</div>
+    ) : (
+      <div className="row">
+        {products.map(product => (
+          <div className="col-md-4 mb-4" key={product._id}>
+            <div className="card h-100">
+              <div className="card-body d-flex flex-column">
+                <div className="d-flex justify-content-between">
+                  <h5 className="card-title">{product.name}</h5>
+                  <span className="text-muted">{`$${product.price.toFixed(2)}`}</span>
+                </div>
+                <p className="text-muted">{product.size}</p>
+                {/* If you have a product image, uncomment the img tag below
+                <img src={product.imageUrl} className="card-img-top" alt={product.name} />
+                */}
+                {/* Add any other details or actions you want here */}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
-  );
+        ))}
+      </div>
+    )}
+  </div>
+);
 };
 
 
