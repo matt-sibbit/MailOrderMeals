@@ -60,20 +60,18 @@ async function registerCustomer(username, email, password) {
   }
 }
 
-async function loginCustomer(username, password) {
+async function loginCustomer(email, password) {
   try {
-    // Find the customer by username
-    const customer = await Customer.findOne({ username });
+    const customer = await Customer.findOne({ email });
 
     if (!customer) {
-      throw new Error("Invalid username or password");
+      throw new Error("Cannot find user with that email"); 
     }
 
-    // Compare the provided password with the hashed password in the database
     const isPasswordValid = await bcrypt.compare(password, customer.password);
 
     if (!isPasswordValid) {
-      throw new Error("Invalid username or password");
+      throw new Error("Invalid email or password"); 
     }
 
     return customer;
@@ -81,6 +79,7 @@ async function loginCustomer(username, password) {
     throw new Error(error.message);
   }
 }
+
 
 async function getOrderDetails(customerId) {
   try {

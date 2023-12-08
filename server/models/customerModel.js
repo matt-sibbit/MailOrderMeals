@@ -17,15 +17,15 @@ const customerSchema = new mongoose.Schema({
   },
   fname: {
     type: String,
-    required: true,
+    // required: true,
   },
   lname: {
     type: String,
-    required: true,
+    // required: true,
   },
   address: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 
