@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SignUp = ({ onAuthChange }) => {
   // const [fname, setFname] = useState('');
   // const [lname, setLname] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
 
   const signUp = () => {
-    const userData = { username, email, password };
-    fetch('http://localhost:4000/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
+    const userData = { username, email, password, fname, lname };
+    fetch("http://localhost:4000/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
     })
-    .then(response => {
-      if (response.ok) {
-        console.log('Signup successful');
-        console.log(response);
-      }
-      else {
-        throw new Error('Signup failed');
-      }
-      return response.json();
-    })
-    .then(data => {
-      onAuthChange(true);
-    })
-    .catch(error => {
-      console.error('Error during sign up:', error);
-      onAuthChange(false);
-    });
+      .then((response) => {
+        if (response.ok) {
+          console.log("Signup successful");
+          console.log(response);
+        } else {
+          throw new Error("Signup failed");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        onAuthChange(true);
+      })
+      .catch((error) => {
+        console.error("Error during sign up:", error);
+        onAuthChange(false);
+      });
   };
 
   return (
@@ -49,28 +50,30 @@ const SignUp = ({ onAuthChange }) => {
         value={lname}
         onChange={(e) => setLname(e.target.value)}
       /> */}
-      <input 
+      <input
         type="text"
         className="form-control mb-2"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input 
+      <input
         type="email"
         className="form-control mb-2"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input 
+      <input
         type="password"
         className="form-control mb-2"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button className="btn btn-primary" onClick={signUp}>Sign Up</button>
+      <button className="btn btn-primary" onClick={signUp}>
+        Sign Up
+      </button>
     </div>
   );
 };

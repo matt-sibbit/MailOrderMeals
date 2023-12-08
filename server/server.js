@@ -1,19 +1,18 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/productModel");
 const Customer = require("./models/customerModel");
-const { 
+const {
   getAllProducts,
   getProductById,
   createProduct,
   updateProductById,
   registerCustomer,
   loginCustomer,
-  getOrderDetails
+  getSubscriptionDetails,
 } = require("./queries");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 
 app.use(cors());
 
@@ -89,8 +88,7 @@ app.put("/products/:id", async (req, res) => {
   }
 });
 
-
-app.post('/signup', async (req, res) => {
+app.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const newCustomer = await registerCustomer(username, email, password);
@@ -100,12 +98,37 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const customer = await loginCustomer(email, password);
     res.status(200).json(customer);
   } catch (error) {
     res.status(401).json({ message: error.message });
+  }
+});
+
+// Create a subscription
+app.post("/subscriptions/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const subscriptionData = req.body;
+
+    // Validate the request body (add your own validation logic)
+    if (
+      !subscriptionData.product ||
+      !subscriptionData.frequency ||
+      !subscriptionData.deliveryAddress ||
+      !subscriptionData.deliveryDay
+    ) {
+      return res.status(400).json({ message: "Invalid request body" });
+    }
+
+    const newSubscription = await createSubscription(userId, subscriptionData);
+
+    res.status(201).json(newSubscription);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
