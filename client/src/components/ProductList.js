@@ -33,30 +33,74 @@ useEffect(() => {
     .catch(error => console.error('Error adding to order:', error));
   };
 
+  const [isSizeDropdownOpen, setSizeDropdownOpen] = useState(false);
+  const [selectedProtein, setSelectedProtein] = useState(null);
+
+  const toggleSizeDropdown = () => {
+    setSizeDropdownOpen(!isSizeDropdownOpen);
+  };
+
+  const handleProteinSelect = (protein) => {
+    setSelectedProtein(protein);
+    setSizeDropdownOpen(true); // Open the size dropdown when protein is selected
+  };
+
 
   return (
-    <div className="container mt-4">
+<div className="container mt-4">
       <h2>Our Products</h2>
-      {products.length === 0 ? (
-        <div className="alert alert-info">The store is empty!</div>
-      ) : (
-        <div className="row">
-          {products.map(product => (
-            <div className="col-sm-4 mb-4" key={product._id}>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{product.name}</h5>
-                  <p className="card-text">{product.description}</p>
-                  <button onClick={() => addToOrder(product._id)} className="btn btn-primary">
-                    Add to Order
-                  </button>
-                </div>
-              </div>
+      <div className="row">
+        <div className="product">
+          <div>Choose your item</div>
+          <div>
+            <div>
+              <label>Select Protein:</label>
+              <select onChange={(e) => handleProteinSelect(e.target.value)}>
+                <option value="">Choose...</option>
+                <option value="chicken">Chicken</option>
+                <option value="beef">Beef</option>
+                <option value="vegetable">vegetable</option>
+                {/* Add more options as needed */}
+              </select>
             </div>
-          ))}
+            {selectedProtein && (
+              <div>
+                <label>Select Size:</label>
+                <select>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+            )}
+          </div>
+            <div>
+            <input 
+              type="Address"
+              className="form-control mb-2"
+              placeholder="Address"
+            />
+            </div>
+            <div>
+              <input 
+                type="Delivery Frequency"
+                className="form-control mb-2"
+                placeholder="Delivery Frequency"
+              />
+          </div>
+
+          <div>
+          <input 
+            type="Day of the week"
+            className="form-control mb-2"
+            placeholder="Day of the week"
+          />
+          </div>
         </div>
-      )}
+      </div>
     </div>
+
   );
 };
 
