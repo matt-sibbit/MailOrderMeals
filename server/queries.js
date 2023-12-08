@@ -80,46 +80,15 @@ async function loginCustomer(email, password) {
     }
 }
 
-// async function getSubscriptionDetails(userId) {
-//     try {
-//         const subscriptions = await Subscription.find({ user: userId })
-//             .populate({
-//                 path: "meals.product",
-//                 model: Product, 
-//             })
-//             .exec();
-
-//         if (!subscriptions || subscriptions.length === 0) {
-//             throw new Error("No subscriptions found for the user");
-//         }
-
-//         const subscriptionDetails = subscriptions.map((subscription) => ({
-//             subscriptionId: subscription._id,
-//             frequency: subscription.frequency,
-//             deliveryAddress: subscription.deliveryAddress,
-//             deliveryDay: subscription.deliveryDay,
-//             meals: subscription.meals.map((meal) => ({
-//                 productId: meal.product._id,
-//                 productName: meal.product.name,
-//                 size: meal.product.size,
-//                 price: meal.product.price,
-//             })),
-//         }));
-
-//         return subscriptionDetails;
-//     } catch (error) {
-//         throw new Error(error.message);
-//     }
-// }
-
 async function createSubscription(userEmail, subscriptionData) {
     try {
         const customer = await Customer.findOne({ email: userEmail });
         if (!customer) {
             throw new Error("Customer not found");
         }
-
-        customer.subscription = subscriptionData;
+        const newSubscription = new Subscription(subscriptionData);
+        await newSubscription.save();
+        customer.subscription = newSubscription._id;
         await customer.save();
 
         return customer;
@@ -135,6 +104,6 @@ module.exports = {
     updateProductById,
     registerCustomer,
     loginCustomer,
-    getSubscriptionDetails,
+    // getSubscriptionDetails,
     createSubscription,
 };

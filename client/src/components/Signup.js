@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
 const SignUp = ({ onAuthChange }) => {
-    // const [fname, setFname] = useState('');
-    // const [lname, setLname] = useState('');
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [fname, setFname] = useState("");
-    // const [lname, setLname] = useState("");
 
     const signUp = () => {
-        const userData = { username, email, password };
+        const userData = { fname, lname, username, email, password };
         fetch("http://localhost:4000/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -27,7 +25,7 @@ const SignUp = ({ onAuthChange }) => {
             })
             .then(() => {
                 localStorage.setItem('isAuthenticated', 'true');
-                localStorage.setItem('userId', email);
+                localStorage.setItem('userId', username);
                 onAuthChange(true);
             })
             .catch((error) => {
@@ -38,20 +36,20 @@ const SignUp = ({ onAuthChange }) => {
 
     return (
         <div>
-            {/* <input
-type="text"
-className="form-control mb-2"
-placeholder="First Name"
-value={fname}
-onChange={(e) => setFname(e.target.value)}
-/> */}
-            {/* <input
-type="text"
-className="form-control mb-2"
-placeholder="Last Name"
-value={lname}
-onChange={(e) => setLname(e.target.value)}
-/> */}
+            <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="First Name"
+                value={fname}
+                onChange={(e) => setFname(e.target.value)}
+            />
+            <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Last Name"
+                value={lname}
+                onChange={(e) => setLname(e.target.value)}
+            />
             <input
                 type="text"
                 className="form-control mb-2"

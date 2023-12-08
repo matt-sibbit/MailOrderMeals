@@ -18,7 +18,7 @@ const customerSchema = new mongoose.Schema({
   subscription: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Subscription",
-    required: true,
+    // required: true,
   },
 });
 

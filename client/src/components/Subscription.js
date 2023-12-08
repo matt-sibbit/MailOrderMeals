@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 const Subscription = () => {
     const [products, setProducts] = useState([]);
-    const [size, setSize] = useState('');
-    const [product, setProduct] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState('');
     const [frequency, setFrequency] = useState('');
     const [deliveryAddress, setDeliveryAddress] = useState('');
     const [deliveryDay, setDeliveryDay] = useState('');
-    const userId = localStorage.getItem('userId');
+    const userEmail = localStorage.getItem('userId');
 
     useEffect(() => {
         fetch('http://localhost:4000/products')
@@ -17,15 +16,23 @@ const Subscription = () => {
     }, []);
 
     const submitSubscription = () => {
+        const productObj = products.find(p => p._id === selectedProduct);
+        if (!productObj) {
+            console.error('Selected product not found');
+            return;
+        }
+
         const subscriptionData = {
-            product,
+            product: productObj._id,
+            size: productObj.size,
             frequency,
             deliveryAddress,
             deliveryDay,
         };
+        
         console.log("Sending subscription data:", subscriptionData);
-        const encodedEmail = encodeURIComponent(userId);
-        fetch(`http://localhost:4000/${encodedEmail}/subscription`, {
+        const encodedEmail = encodeURIComponent(userEmail);
+        fetch(`http://localhost:4000/customers/${encodedEmail}/subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(subscriptionData)
@@ -58,31 +65,16 @@ onChange={(e) => setProduct(e.target.value)}
 /> */}
             <select
                 className="form-control mb-2"
-                value={product}
-                onChange={(e) => setProduct(e.target.value)}
+                value={selectedProduct}
+                onChange={(e) => setSelectedProduct(e.target.value)}
             >
-                <option value="">Select a Product</option>
-                {Array.from(new Set(products.map((prod) => prod.name))).map((productName) => (
-                    <option key={productName} value={productName}>
-                        {productName}
+                <option value="">Select a Product and Size</option>
+                {products.map((prod) => (
+                    <option key={prod._id} value={prod._id}>
+                        {prod.name} - {prod.size}
                     </option>
                 ))}
             </select>
-            <select
-                className="form-control mb-2"
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-            >
-                <option value="">Select a Size</option>
-                {product && products
-                    .filter((prod) => prod.name === product)
-                    .map((prod) => (
-                        <option key={prod._id} value={prod.size}>
-                            {prod.size}
-                        </option>
-                    ))}
-            </select>
-
             <input
                 type="text"
                 className="form-control mb-2"

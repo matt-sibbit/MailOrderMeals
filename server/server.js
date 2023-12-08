@@ -135,37 +135,19 @@ app.post("/customers/:email/subscription", async (req, res) => {
     }
 });
 
-// Create a subscription
-// app.post("/subscriptions/:userId", async (req, res) => {
-//     try {
-//         // const userId = req.params.userId;
-//         const userId = req.params.userId;
-//         if (!mongoose.Types.ObjectId.isValid(userId)) {
-//             return res.status(400).json({ message: "Invalid User ID" });
-//         }
-//         const subscriptionData = req.body;
-//         const { product, frequency, deliveryAddress, deliveryDay } = req.body;
-//         if (!product || !frequency || !deliveryAddress || !deliveryDay) {
-//             return res.status(400).json({ message: "Missing required subscription fields" });
-//         }
+app.get("/customers/:email/subscription", async (req, res) => {
+    try {
+        const email = req.params.email;
+        const customer = await Customer.findOne({ email: email }).populate('subscription');
+        if (!customer) {
+            return res.status(404).json({ message: "Customer not found" });
+        }
+        if (!customer.subscription) {
+            return res.status(404).json({ message: "Subscription not found" });
+        }
+        res.status(200).json(customer.subscription);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
-//         // Validate the request body (add your own validation logic)
-//         if (
-//             !subscriptionData.product ||
-//             !subscriptionData.frequency ||
-//             !subscriptionData.deliveryAddress ||
-//             !subscriptionData.deliveryDay
-//         ) {
-//             return res.status(400).json({ message: "Invalid request body" });
-//         }
-
-//         const newSubscription = await createSubscription(userId, subscriptionData);
-
-//         res.status(201).json(newSubscription);
-//     } catch (error) {
-//         console.error(error.message);
-//         // res.status(500).json({ message: "Internal Server Error", error: error.message });
-//         res.status(500).json({ message: "Internal Server Error", errorDetails: error.toString() });
-//         // res.status(500).json({ message: "Internal Server Error" });
-//     }
-// });
