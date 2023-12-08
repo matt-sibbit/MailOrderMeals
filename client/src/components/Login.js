@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
 
 const Login = ({ onAuthChange }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-  
-    const login = () => {
-      const loginData = { email, password };
-  
-      fetch('http://localhost:4000/login', { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData)
-      })
-      .then(response => {
-        if(response.ok) {
-          console.log('Login successful');
-          console.log(response)
-        }
-        else {
-          throw new Error('Login failed');
-        }
-        return response.json();
-      })
-      .then(data => {
-        onAuthChange(true); 
-      })
-      .catch(error => {
-        console.error('Error during login:', error);
-        onAuthChange(false); 
-      });
-    };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const login = () => {
+    const loginData = { email, password };
+
+    fetch('http://localhost:4000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(loginData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      localStorage.setItem('isAuthenticated', 'true');
+      onAuthChange(true); 
+    })
+    .catch(error => {
+      console.error('Error during login:', error);
+      localStorage.setItem('isAuthenticated', 'false');
+      onAuthChange(false); 
+    });
+  };
 
   return (
     <div>
