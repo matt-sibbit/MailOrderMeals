@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const Profile = ({ onAuthChange }) => {
     const [user, setUser] = useState({
         username: '',
         email: '',
@@ -19,6 +19,7 @@ const Profile = () => {
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('userId');
+        onAuthChange(false);
         navigate('/');
     };
 

@@ -52,7 +52,7 @@ const App = () => {
 				<>
 				  <Route path="/order" element={<Order />} />
 				  <Route path="/subscription" element={<SubscriptionPage />} />
-				  <Route path="/profile" element={<Profile />} />
+				  <Route path="/profile" element={<Profile onAuthChange={handleAuthentication} />} />
 				</>
 			  )}
 			</Routes>
