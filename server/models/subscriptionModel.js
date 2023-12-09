@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const subscriptionSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Prouduct",
+    ref: "Product",
+    // required: true,
+  },
+  size: {
+    type: String,
     // required: true,
   },
   frequency: {
